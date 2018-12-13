@@ -18,7 +18,7 @@ import (
 
 func main() {
 	port := flag.Int64("port", 8001, "listening port")
-	postgresDSN := flag.String("postgres-dsn", "postgres://locahost/sigiriya?sslmode=disable", "Postgres DSN")
+	postgresDSN := flag.String("postgres-dsn", "postgres://locahost/syracuse?sslmode=disable", "Postgres DSN")
 
 	flag.Parse()
 
