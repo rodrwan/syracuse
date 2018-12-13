@@ -55,7 +55,20 @@ type CitizensService struct {
 
 // Get ...
 func (cs *CitizensService) Get(ctx context.Context, gr *citizens.GetRequest) (*citizens.GetResponse, error) {
-	return nil, nil
+	c, err := cs.Citizens.Get(gr.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	return &citizens.GetResponse{
+		Data: &citizens.Citizen{
+			Id:        c.ID,
+			Email:     c.Email,
+			Fullname:  c.Fullname,
+			CreatedAt: c.CreatedAt.Unix(),
+			UpdatedAt: c.UpdatedAt.Unix(),
+		},
+	}, nil
 }
 
 // Select ...
@@ -65,7 +78,24 @@ func (cs *CitizensService) Select(ctx context.Context, gr *citizens.SelectReques
 
 // Create ...
 func (cs *CitizensService) Create(ctx context.Context, gr *citizens.CreateRequest) (*citizens.CreateResponse, error) {
-	return nil, nil
+	c := &syracuse.Citizen{
+		Email:    gr.Data.Email,
+		Fullname: gr.Data.Fullname,
+	}
+
+	if err := cs.Citizens.Create(c); err != nil {
+		return nil, err
+	}
+
+	return &citizens.CreateResponse{
+		Data: &citizens.Citizen{
+			Id:        c.ID,
+			Email:     c.Email,
+			Fullname:  c.Fullname,
+			CreatedAt: c.CreatedAt.Unix(),
+			UpdatedAt: c.UpdatedAt.Unix(),
+		},
+	}, nil
 }
 
 // Update ...

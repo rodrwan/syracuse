@@ -34,7 +34,9 @@ message SelectResponse {
   repeated Citizen data = 1;
 }
 
-message CreateRequest {}
+message CreateRequest {
+  Citizen data = 1;
+}
 
 message CreateResponse {
   Citizen data = 1;
