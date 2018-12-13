@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
 	"github.com/rodrwan/syracuse"
 )
@@ -34,6 +35,22 @@ func (cs *CitizensService) Select() ([]*syracuse.Citizen, error) {
 
 // Create ...
 func (cs *CitizensService) Create(c *syracuse.Citizen) error {
+	sql, args, err := squirrel.
+		Insert("users").
+		Columns("email", "fullname").
+		Values(c.Email, c.Fullname).
+		Suffix("returning *").
+		PlaceholderFormat(squirrel.Dollar).
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	row := cs.Store.QueryRowx(sql, args...)
+	if err := row.StructScan(c); err != nil {
+		return err
+	}
+
 	return nil
 }
 
