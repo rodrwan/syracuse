@@ -18,13 +18,13 @@ import (
 
 func main() {
 	port := flag.Int64("port", 8001, "listening port")
-	postgresDSN := flag.String("postgres-dsn", "postgres://locahost/syracuse?sslmode=disable", "Postgres DSN")
+	postgresDSN := flag.String("postgres-dsn", "postgres://localhost:5432/syracuse?sslmode=disable", "Postgres DSN")
 
 	flag.Parse()
 
 	db, err := sqlx.Connect("postgres", *postgresDSN)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalf("Failed to connect to postgres: %v", err)
 	}
 
 	srv := grpc.NewServer()
