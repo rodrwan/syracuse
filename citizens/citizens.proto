@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package citizens;
+
+service Citizenship {
+  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc Select(SelectRequest) returns (SelectResponse) {}
+  rpc Create(CreateRequest) returns (CreateResponse) {}
+  rpc Update(UpdateRequest) returns (UpdateResponse) {}
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+}
+
+message Citizen {
+  string id = 1;
+  string fullname = 2;
+  string email = 3;
+}
+
+message GetRequest {
+  string user_id = 1;
+}
+
+message GetResponse {
+  Citizen data = 1;
+}
+
+message SelectRequest {}
+
+message SelectResponse {
+  repeated Citizen data = 1;
+}
+
+message CreateRequest {}
+
+message CreateResponse {
+  Citizen data = 1;
+}
+
+message UpdateRequest {}
+
+message UpdateResponse {
+  Citizen data = 1;
+}
+
+message DeleteRequest {}
+
+message DeleteResponse {
+  Citizen data = 1;
+}
