@@ -13,15 +13,17 @@ type CitizensService struct {
 
 // Get ...
 func (cs *CitizensService) Get(ID string) (*syracuse.Citizen, error) {
-	sql := "Select * from users where id = ? and deleted_at is null"
+	query := squirrel.Select("*").From("users").Where("id = ?", ID).Where("deleted_at is null")
 
-	rows, err := cs.Store.Queryx(sql)
+	sql, args, err := query.PlaceholderFormat(squirrel.Dollar).ToSql()
 	if err != nil {
 		return nil, err
 	}
 
+	row := cs.Store.QueryRowx(sql, args...)
+
 	c := &syracuse.Citizen{}
-	if err := rows.Scan(c); err != nil {
+	if err := row.StructScan(c); err != nil {
 		return nil, err
 	}
 
