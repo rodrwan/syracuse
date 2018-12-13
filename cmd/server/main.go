@@ -12,6 +12,8 @@ import (
 	"github.com/rodrwan/syracuse/citizens"
 	"github.com/rodrwan/syracuse/postgres"
 	"google.golang.org/grpc"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
